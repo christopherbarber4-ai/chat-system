@@ -9,31 +9,53 @@
 
 <body>
     <h1> Chat</h1>
+
+    <ul id ="messages"> </ul>
+
     <form id="form">
         <input id="input" autocomplete="off" />
         <button> Send </button>
 
     </form>
 
+    <h2 id="health"> 
+        50
+    </h2>
+
+    <form id="name">
+        <input id="nameinput"/>
+        <button>Submit</button>
+       
+    </form>
+
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
         const socket = io();
-
         const form = document.getElementById("form");
         const input = document.getElementById("input");
         const messages = document.getElementById("messages");
+       
+
+        form.addEventListener(
+            var name = input.value.trim();
+        });
+
 
         form.addEventListener("Submit", (e) => {
             e.preventDefault();
             const text = input.value.trim();
-            if (!text) retirn;
-            socket.emit("chat:send", text);
+            if (!text) return;
+            socket.emit("chat:send", text + " hello this is text");
             input.value = "";
-        })
-        // TODO (you write): on form submit, emit "chat:send" with the text
+        });
 
-        // TODO (you write): listen for "chat:message" and add it to the <ul>
+        socket.on("chat:message", (text) => {
+            const li = document.createElement("li");
+            li.textContent = socket.id + " says: " + text;
+            messages.appendChild(li);
+        });
+    
     </script>
 
 
