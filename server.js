@@ -6,23 +6,33 @@ const {Server} = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+app.use(express.static("public"));
 
 
-//serve the HTML file at/
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));});
 
-//when a browser connects via Socket.io
+io.on("connect", (socket) => { console.log("User connected: ", socket.id);
+    
+socket.on("nameUpdate", (nameEntered) => {
+    io.emit("messageSend", ("You are now known as: " + nameEntered));
+    socket.username = nameEntered;
+});
 
-io.on("connection", (socket) => { console.log("User connected: ", socket.id);
 
-socket.on("chat:send",(text) =>{
-    io.emit("chat:message", (text));
+
+
+socket.on("messageSend",(text) =>{
+    io.emit("messageSend", (socket.username + " says " + text));
 
 });
 
-socket.on("disconnect", () =>{console.log ("User disconnected:", socket.id);
 
+
+
+socket.on("disconnect", () =>{console.log ("User disconnected: ", socket.id);
+
+    socket.emit
 })});
 
 server.listen(3000, () => { console.log("Server running at http://localhost:3000");

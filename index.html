@@ -5,28 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/ui.css">
+
 </head>
 
 <body>
-    <h1> Chat</h1>
 
-    <ul id ="messages"> </ul>
+    <div class="container">
+        <nav>
+            <h1>Testing Chat App! </h1>
+            <h2>Input input input</h2>
+            <p> Who knows what the future of messaging will be after this app!</p>
+        </nav>
 
-    <form id="form">
-        <input id="input" autocomplete="off" />
-        <button> Send </button>
+        <div class="maincontent">
+            <h1> Chat</h1>
+            <p> Welcome to the test bed for the future of online communication</p>
 
-    </form>
+            <ul id="messages"> </ul>
 
-    <h2 id="health"> 
-        50
-    </h2>
+            <form id="form">
+                <input id="input" autocomplete="off" />
+                <button> Send </button>
 
-    <form id="name">
-        <input id="nameinput"/>
-        <button>Submit</button>
-       
-    </form>
+            </form>
+            <br>
+
+            <input id="namedata" placeholder="Please input your name" />
+            <button id="namebutton" type="button"> Update </button>
+
+            <div>
+                <br> <br>
+                <input id="numData" placeholder="Please input a number" />
+                <button id="numButton" type="button"> Update </button>
+            </div>
+
+
+
+        </div>
+
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
 
@@ -35,22 +53,48 @@
         const form = document.getElementById("form");
         const input = document.getElementById("input");
         const messages = document.getElementById("messages");
-       
+        const getnamebutton = document.getElementById("namebutton");
+        const getnamedata = document.getElementById("namedata");
 
-        form.addEventListener("Submit", (e) => {
+        const getNumButton = document.getElementById("numButton");
+        const getNumData = document.getElementById("numData");
+
+        getNumButton.addEventListener("click", ()=>{
+            let numEntered = (Math.floor(Math.random()*getNumData.value));
+            console.log(numEntered);
+            getNumButton.insertAdjacentHTML("afterend", `<br>You rolled : ${numEntered} </div>`);
+            socket.emit("numUpdate", numEntered);
+            
+        })
+
+
+
+        getnamebutton.addEventListener("click", () => {
+            let nameEntered = getnamedata.value;
+            console.log(`Your name is: ${nameEntered}`);
+            getnamebutton.insertAdjacentHTML("afterend", `<div>  Your name is: ${nameEntered} </div>`);
+            socket.emit("nameUpdate", nameEntered);
+
+        });
+
+        form.addEventListener("submit", (e) => {
             e.preventDefault();
             const text = input.value.trim();
             if (!text) return;
-            socket.emit("chat:send", text + " hello this is text");
+            socket.emit("messageSend", text);
             input.value = "";
         });
 
-        socket.on("chat:message", (text) => {
+        socket.on("messageSend", (text) => {
             const li = document.createElement("li");
-            li.textContent = socket.id + " says: " + text;
+            li.textContent = text;
             messages.appendChild(li);
         });
-    
+
+        
+
+
+
     </script>
 
 

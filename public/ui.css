@@ -1,0 +1,39 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    color: white;
+}
+
+    
+
+nav{
+    background-color: rgba(126, 117, 204, 0.432);
+    padding: 10px 0px 25px 5px;
+    border-radius: 20px;
+    
+}
+nav p{
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    
+}
+
+
+.container{
+    
+  
+    margin: 10px;
+}
+
+.maincontent{
+    background-color: rgba(126, 117, 204, 0.432);
+    align-content: center;
+    margin: 50px;
+    width: 300px;
+    border-radius: 20px;
+    padding: 10px 20px 50px;
+background: #536fed;
+background: linear-gradient(175deg,rgba(83, 111, 237, 1) 0%, rgba(108, 87, 199, 1) 64%);
+}
+
