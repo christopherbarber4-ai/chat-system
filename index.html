@@ -10,13 +10,14 @@
 </head>
 
 <body>
+    <nav>
+        <h1>Testing Chat App! </h1>
+        <h2>Input input input</h2>
+        <p> Who knows what the future of messaging will be after this app!</p>
+    </nav>
 
     <div class="container">
-        <nav>
-            <h1>Testing Chat App! </h1>
-            <h2>Input input input</h2>
-            <p> Who knows what the future of messaging will be after this app!</p>
-        </nav>
+
 
         <div class="maincontent">
             <h1> Chat</h1>
@@ -44,6 +45,17 @@
 
         </div>
 
+        <div class="playerCount">
+            <h1> Players</h1>
+            <p> Active Players right now </p>
+
+            <ul id="players"> </ul>
+
+
+
+        </div>
+
+
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -59,12 +71,11 @@
         const getNumButton = document.getElementById("numButton");
         const getNumData = document.getElementById("numData");
 
-        getNumButton.addEventListener("click", ()=>{
-            let numEntered = (Math.floor(Math.random()*getNumData.value));
+        getNumButton.addEventListener("click", () => {
+            let numEntered = (Math.floor(Math.random() * getNumData.value));
             console.log(numEntered);
             getNumButton.insertAdjacentHTML("afterend", `<br>You rolled : ${numEntered} </div>`);
             socket.emit("numUpdate", numEntered);
-            
         })
 
 
@@ -89,9 +100,16 @@
             const li = document.createElement("li");
             li.textContent = text;
             messages.appendChild(li);
+
         });
 
-        
+        socket.on("newUser", (userId) => {
+            const li = document.createElement("li");
+            li.textContent = userId;
+            players.appendChild(li);
+        });
+
+
 
 
 
