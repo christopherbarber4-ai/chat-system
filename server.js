@@ -7,22 +7,28 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 app.use(express.static("public"));
+let userList = [];
 
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
 });
 
-io.on("connect", (socket) => { 
+io.on("connect", (socket) => {
+
+
     console.log("User connected: ", socket.id);
-    io.emit("newUser", (socket.id));
+    userList.push(socket.id);
+    io.emit("newUser", socket.id, userList);
+
+
 
 
 
     socket.on("nameUpdate", (nameEntered) => {
         io.emit("messageSend", ("You are now known as: " + nameEntered));
         socket.username = nameEntered;
-        io.emit("newUser", (socket.username));
+
 
     });
 
@@ -43,8 +49,8 @@ io.on("connect", (socket) => {
 
     socket.on("disconnect", () => {
         console.log("User disconnected: ", socket.id);
+        userList.pop(socket.id);
 
-        socket.emit
     })
 });
 

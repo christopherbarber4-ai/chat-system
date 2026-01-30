@@ -82,7 +82,6 @@
 
         getnamebutton.addEventListener("click", () => {
             let nameEntered = getnamedata.value;
-            console.log(`Your name is: ${nameEntered}`);
             getnamebutton.insertAdjacentHTML("afterend", `<div>  Your name is: ${nameEntered} </div>`);
             socket.emit("nameUpdate", nameEntered);
 
@@ -103,11 +102,19 @@
 
         });
 
-        socket.on("newUser", (userId) => {
-            const li = document.createElement("li");
-            li.textContent = userId;
-            players.appendChild(li);
+        socket.on("newUser", (userId, userList) => {
+            players.innerHTML = "";
+            console.log(userList);
+            userList.forEach(user_id => {
+                const li = document.createElement("li");
+                li.textContent = user_id;
+                players.appendChild(li);
+            });
+
+
         });
+
+
 
 
 
