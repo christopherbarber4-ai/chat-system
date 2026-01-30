@@ -114,9 +114,17 @@
 
         });
 
+        socket.on("disconnected", (userId, userList) =>{
+            players.innerHTML = "";
+            console.log(userList);
+            userList.forEach(user_id => {
+                const li = document.createElement("li");
+                li.textContent = user_id;
+                players.appendChild(li);
+            });
 
-
-
+         
+        })
 
 
 

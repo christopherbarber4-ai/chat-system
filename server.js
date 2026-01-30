@@ -45,12 +45,10 @@ io.on("connect", (socket) => {
     });
 
 
-
-
     socket.on("disconnect", () => {
         console.log("User disconnected: ", socket.id);
         userList.pop(socket.id);
-
+        io.emit("disconnected",socket.id, userList);
     })
 });
 
